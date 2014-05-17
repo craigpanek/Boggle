@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        display = new JTextField("hello there");
+        display = new JTextField("Peter and Craig's first practice project");
         display.setPreferredSize(new Dimension(350, 60));
         display.setMaximumSize(new Dimension(350, 60));
         display.setMinimumSize(new Dimension(350, 60));
