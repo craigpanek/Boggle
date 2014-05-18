@@ -5,7 +5,7 @@ public class CalculatorViewer {
         JFrame frame = new MainFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Calculator");
-        frame.setSize(650, 500);
+        frame.setSize(650, 560);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

@@ -12,30 +12,35 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * This frame contains a panel that displays buttons for a boggle board and a
- * panel with a text fields to specify the result of calculation. The operator
- * buttons don't do anything--see Worked Example 1 for a working calculator.
+ * This frame contains panels that displays components necessary for a
+ * Boggle game.  Users play the game by clicking on buttons.
  */
 public class MainFrame extends JFrame {
-    private final JTextField display;
+    private final JTextField upperDisplay;
+    private final JTextField lowerDisplay;
     private final JPanel centerPanel;
 
     public MainFrame() {
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        display = new JTextField("Peter and Craig's first practice project");
-        display.setPreferredSize(new Dimension(350, 60));
-        display.setMaximumSize(new Dimension(350, 60));
-        display.setMinimumSize(new Dimension(350, 60));
-        display.setEditable(false);
-        centerPanel.add(display);
+        upperDisplay = new JTextField("Peter and Craig's first practice project");
+        upperDisplay.setPreferredSize(new Dimension(350, 60));
+        upperDisplay.setMaximumSize(new Dimension(350, 60));
+        upperDisplay.setMinimumSize(new Dimension(350, 60));
+        upperDisplay.setEditable(false);
+        centerPanel.add(upperDisplay);
         add(centerPanel);
         createButtonPanel();
         createLowerButtons();
         createLeftTextField();
         createRightTextField();
-        
-        centerPanel.setSize(300, 300);
+        lowerDisplay = new JTextField("Game messages appear here");
+        lowerDisplay.setPreferredSize(new Dimension(350, 60));
+        lowerDisplay.setMaximumSize(new Dimension(350, 60));
+        lowerDisplay.setMinimumSize(new Dimension(350, 60));
+        lowerDisplay.setEditable(false);
+        centerPanel.add(lowerDisplay);
+        setSize(600, 600);
     }
 
     /**
@@ -77,14 +82,14 @@ public class MainFrame extends JFrame {
     
     private void createLeftTextField() {
         JPanel leftPanel = new JPanel();
-        JTextArea leftWordList = new JTextArea(28, 12);
+        JTextArea leftWordList = new JTextArea(32, 12);
         leftPanel.add(leftWordList);
         add(leftPanel, BorderLayout.WEST);
     }
     
     private void createRightTextField() {
         JPanel rightPanel = new JPanel();
-        JTextArea rightWordList = new JTextArea(28, 12);
+        JTextArea rightWordList = new JTextArea(32, 12);
         rightPanel.add(rightWordList);
         add(rightPanel, BorderLayout.EAST);
     }
@@ -117,7 +122,8 @@ public class MainFrame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent event) {
-            display.setText(display.getText() + digit);
+            upperDisplay.setText(upperDisplay.getText() + digit);
+            lowerDisplay.setText(lowerDisplay.getText() + digit);
         }
     }
 
