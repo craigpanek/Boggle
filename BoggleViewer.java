@@ -7,6 +7,7 @@ public class BoggleViewer {
         frame.setTitle("Boggle");
         frame.setSize(650, 560);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 }

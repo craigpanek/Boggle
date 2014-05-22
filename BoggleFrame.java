@@ -22,9 +22,10 @@ public class BoggleFrame extends JFrame {
     private JTextArea leftWordList;
     private JTextArea rightWordList;
     private BoggleBoard board;
-
+    private Cube cube;
+    
     public BoggleFrame() {
-        board = new BoggleBoard();
+        board = new BoggleBoard(5, 5);
     	centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         upperDisplay = new JTextField("Peter and Craig's first practice project");
@@ -34,6 +35,7 @@ public class BoggleFrame extends JFrame {
         upperDisplay.setEditable(false);
         centerPanel.add(upperDisplay);
         add(centerPanel);
+        cube = new Cube();
         createButtonPanel();
         createLowerButtons();
         createLeftTextField();
@@ -47,7 +49,6 @@ public class BoggleFrame extends JFrame {
         
         // HERE IS HOW TO MAKE AND DISPLAY CUBES
         for(int i=0; i < 20; i++) {
-        	Cube cube = new Cube();
         	String letter = cube.rollCube();
         	upperDisplay.setText(upperDisplay.getText() + letter);
         }
@@ -62,8 +63,8 @@ public class BoggleFrame extends JFrame {
         buttonPanel.setPreferredSize(new Dimension(350, 350));
         buttonPanel.setMaximumSize(new Dimension(350, 350));
         buttonPanel.setMinimumSize(new Dimension(350, 350));
-        for(int i=1; i < 26; i++) {
-        	buttonPanel.add(makeLetterButton("" + i));
+        for(int i = 0; i < 25; i++) {
+        	buttonPanel.add(makeLetterButton(cube.rollCube()));
         }
         centerPanel.add(buttonPanel);
     }
@@ -71,6 +72,7 @@ public class BoggleFrame extends JFrame {
     private void createLeftTextField() {
         JPanel leftPanel = new JPanel();
         leftWordList = new JTextArea(32, 12);
+        leftWordList.setEditable(false);
         leftPanel.add(leftWordList);
         add(leftPanel, BorderLayout.WEST);
     }
@@ -78,6 +80,7 @@ public class BoggleFrame extends JFrame {
     private void createRightTextField() {
         JPanel rightPanel = new JPanel();
         rightWordList = new JTextArea(32, 12);
+        rightWordList.setEditable(false);
         rightPanel.add(rightWordList);
         add(rightPanel, BorderLayout.EAST);
     }
@@ -130,43 +133,43 @@ public class BoggleFrame extends JFrame {
     /**
      * Makes a button representing a digit of a calculator.
      * 
-     * @param digit
+     * @param letter
      *            the digit of the calculator
      * @return the button of the calculator
      */
-    private JButton makeLetterButton(String digit) {
-        JButton button = new JButton(digit);
+    private JButton makeLetterButton(String letter) {
+        JButton button = new JButton(letter);
         
-        ActionListener listener = new LetterButtonListener(digit);
+        ActionListener listener = new LetterButtonListener(letter);
         button.addActionListener(listener);
         return button;
     }
 
     class ResetButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText(upperDisplay.getText() + " Reset key pressed");
-            lowerDisplay.setText(lowerDisplay.getText() + " Reset key pressed");
+            upperDisplay.setText("Reset key pressed");
+            lowerDisplay.setText("Reset key pressed");
         }
     }
     
     class ClearButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText(upperDisplay.getText() + " Clear key pressed");
-            lowerDisplay.setText(lowerDisplay.getText() + " Clear key pressed");
+            upperDisplay.setText("");
+            lowerDisplay.setText("");
         }
     }
     
     class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText(upperDisplay.getText() + " Submit key pressed");
-            lowerDisplay.setText(lowerDisplay.getText() + " Submit key pressed");
+            upperDisplay.setText("Submit key pressed");
+            lowerDisplay.setText("Submit key pressed");
         }
     }
     
     class AutoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText(upperDisplay.getText() + " Auto key pressed");
-            lowerDisplay.setText(lowerDisplay.getText() + " Auto key pressed");
+            upperDisplay.setText("Auto key pressed");
+            lowerDisplay.setText("Auto key pressed");
         }
     }
 }
