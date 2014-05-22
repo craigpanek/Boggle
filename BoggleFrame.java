@@ -15,6 +15,7 @@ import javax.swing.JTextField;
  * This frame contains panels that displays components necessary for a
  * Boggle game.  Users play the game by clicking on buttons.
  */
+@SuppressWarnings("serial")
 public class BoggleFrame extends JFrame {
     private JTextField upperDisplay;
     private JTextField lowerDisplay;
@@ -22,10 +23,12 @@ public class BoggleFrame extends JFrame {
     private JTextArea leftWordList;
     private JTextArea rightWordList;
     private BoggleBoard board;
-    private Cube cube;
+    private final int NUM_ROWS = 5;
+    private final int NUM_COLS = 5;
+    private JButton letterButtons[][] = new JButton[NUM_ROWS][NUM_COLS];
     
     public BoggleFrame() {
-        board = new BoggleBoard(5, 5);
+        board = new BoggleBoard(NUM_ROWS, NUM_COLS);
     	centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         upperDisplay = new JTextField("Peter and Craig's first practice project");
@@ -35,7 +38,6 @@ public class BoggleFrame extends JFrame {
         upperDisplay.setEditable(false);
         centerPanel.add(upperDisplay);
         add(centerPanel);
-        cube = new Cube();
         createButtonPanel();
         createLowerButtons();
         createLeftTextField();
@@ -53,13 +55,15 @@ public class BoggleFrame extends JFrame {
      */
     private void createButtonPanel() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 5));
+        buttonPanel.setLayout(new GridLayout(NUM_ROWS, NUM_COLS));
         buttonPanel.setPreferredSize(new Dimension(350, 350));
         buttonPanel.setMaximumSize(new Dimension(350, 350));
         buttonPanel.setMinimumSize(new Dimension(350, 350));
         for(int row = 0; row < 5; row++) {
         	for (int col = 0; col < 5; col++) {
-        		buttonPanel.add(makeLetterButton(board.getLetter(row, col)));
+        		letterButtons[row][col] = new JButton(board.getLetter(row, col));
+        		letterButtons[row][col].addActionListener(new LetterButtonListener(board.getLetter(row, col)));
+        		buttonPanel.add(letterButtons[row][col]);
         	}
         }
         centerPanel.add(buttonPanel);
@@ -126,25 +130,14 @@ public class BoggleFrame extends JFrame {
         }
     }
 
-    /**
-     * Makes a button representing a digit of a calculator.
-     * 
-     * @param letter
-     *            the digit of the calculator
-     * @return the button of the calculator
-     */
-    private JButton makeLetterButton(String letter) {
-        JButton button = new JButton(letter);
-        
-        ActionListener listener = new LetterButtonListener(letter);
-        button.addActionListener(listener);
-        return button;
-    }
-
     class ResetButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText("Reset key pressed");
-            lowerDisplay.setText("Reset key pressed");
+        	board.randomize();
+            for(int row = 0; row < NUM_ROWS; row++) {
+            	for (int col = 0; col < NUM_COLS; col++) {
+            		letterButtons[row][col].setText(board.getLetter(row, col));
+            	}
+            }
         }
     }
     
