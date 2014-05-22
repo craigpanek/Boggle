@@ -25,6 +25,10 @@ public class Cube {
 		return letter;
 	}
 	
+	public String getLetter() {
+		return letter;
+	}
+	
 	public int getID() {
 		return cubeID;
 	}

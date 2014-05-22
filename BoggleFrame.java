@@ -46,12 +46,6 @@ public class BoggleFrame extends JFrame {
         lowerDisplay.setMinimumSize(new Dimension(350, 60));
         lowerDisplay.setEditable(false);
         centerPanel.add(lowerDisplay);
-        
-        // HERE IS HOW TO MAKE AND DISPLAY CUBES
-        for(int i=0; i < 20; i++) {
-        	String letter = cube.rollCube();
-        	upperDisplay.setText(upperDisplay.getText() + letter);
-        }
     }
 
     /**
@@ -63,8 +57,10 @@ public class BoggleFrame extends JFrame {
         buttonPanel.setPreferredSize(new Dimension(350, 350));
         buttonPanel.setMaximumSize(new Dimension(350, 350));
         buttonPanel.setMinimumSize(new Dimension(350, 350));
-        for(int i = 0; i < 25; i++) {
-        	buttonPanel.add(makeLetterButton(cube.rollCube()));
+        for(int row = 0; row < 5; row++) {
+        	for (int col = 0; col < 5; col++) {
+        		buttonPanel.add(makeLetterButton(board.getLetter(row, col)));
+        	}
         }
         centerPanel.add(buttonPanel);
     }

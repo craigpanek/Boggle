@@ -18,6 +18,10 @@ public class BoggleBoard {
 		randomize();
 	}
 	
+	public String getLetter(int row, int col) {
+		return arrayOfCubes[row][col].getLetter();
+	}
+	
 	public void randomize() {
 		// Randomly assign letter to cube
 		for (int row = 0; row < height; row++) {
