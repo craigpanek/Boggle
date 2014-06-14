@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -66,7 +67,7 @@ public class BoggleFrame extends JFrame {
         for(int row = 0; row < 5; row++) {
         	for (int col = 0; col < 5; col++) {
         		cubeButtons[row][col] = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton
-        		cubeButtons[row][col].addActionListener(new LetterButtonListener(board.getLetter(row, col))); // attaches listener to the JButton
+        		cubeButtons[row][col].addActionListener(new LetterButtonListener(row, col)); // attaches listener to the JButton
         		buttonPanel.add(cubeButtons[row][col]);
         	}
         }

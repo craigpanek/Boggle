@@ -11,7 +11,7 @@ public class BoggleGame {
 	private Lexicon lexicon;
 	private int currentRow;
 	private int currentCol;
-	private OrderedList wordList;
+	private OrderedList wordList = new OrderedList();
 
 	ArrayList<MyPair> selections = new ArrayList<MyPair>();
 
