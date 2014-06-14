@@ -35,7 +35,7 @@ public class BoggleFrame extends JFrame {
         board.randomize();
     	centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        display = new JTextField("Peter and Craig's first practice project");
+        display = new JTextField("");
         display.setPreferredSize(new Dimension(350, 60));
         display.setMaximumSize(new Dimension(350, 60));
         display.setMinimumSize(new Dimension(350, 60));
@@ -115,7 +115,8 @@ public class BoggleFrame extends JFrame {
     }
     
     class LetterButtonListener implements ActionListener {
-        private String letter;
+        Integer row, col;
+        Integer prevRow = 0, prevCol = 0;
         /**
          * Constructs a listener whose actionPerformed method adds a digit to
          * the display.
@@ -123,26 +124,20 @@ public class BoggleFrame extends JFrame {
          * @param aDigit
          *            the digit to add
          */
-        public LetterButtonListener(String aLetter) {
-            letter = aLetter;
+        public LetterButtonListener(Integer row, Integer col) {
+            this.row = row;
+            this.col = col;
         }
+
         public void actionPerformed(ActionEvent event) {
-        /*	int row, col, rowSpan, colSpan;
-        	int prevRow=0, prevCol=0;
-        	Button *clickedButton = qobject_cast<Button *>(sender());
-        	cubeLayout->getItemPosition(cubeLayout->indexOf(clickedButton), &row, &col, &rowSpan, &colSpan);
-        	if(game.selectCube(row, col)) {
-        		// Uncomment the following lines to view row and col in message window
-        		//	char buf[32];
-        		//	message->setText(QString(itoa(row,buf, 10)) + " " + QString(itoa(col,buf, 10)) );
-        		clickedButton->setStyleSheet("background-color:orange;");
+        	if (game.selectCube(row, col)) {
+        		cubeButtons[row][col].setBackground(Color.ORANGE);
         		if (game.getPreviousSelection(prevRow, prevCol)) {
-        			QWidget *previousButton = cubeLayout->itemAtPosition(prevRow, prevCol)->widget();
-        			previousButton->setStyleSheet("background-color:powderblue;");
+        			cubeButtons[prevRow][prevCol].setBackground(Color.BLUE);
         		}
-        		QString text = display->text() + clickedButton->text();
-        		display->setText(text);
-        	}*/
+        		String text = display.getText() + cubeButtons[row][col].getText();
+        		display.setText(text);
+        	}
         }
     }
 
