@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,39 +16,42 @@ import javax.swing.JTextField;
  * This frame contains panels that displays components necessary for a
  * Boggle game.  Users play the game by clicking on buttons.
  */
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class BoggleFrame extends JFrame {
-    private JTextField upperDisplay;
-    private JTextField lowerDisplay;
+    private JTextField display;
+    private JTextField message;
     private JPanel centerPanel;
-    private JTextArea leftWordList;
-    private JTextArea rightWordList;
+    private JTextArea userWordListPane;
+    private JTextArea computerGeneratedWordsPane;
     private BoggleBoard board;
-    private final int NUM_ROWS = 5;
-    private final int NUM_COLS = 5;
-    private JButton letterButtons[][] = new JButton[NUM_ROWS][NUM_COLS];
+    private final int NUM_CUBES_HIGH = 5;
+    private final int NUM_CUBES_WIDE = 5;
+    private JButton cubeButtons[][] = new JButton[NUM_CUBES_HIGH][NUM_CUBES_WIDE];
+    private BoggleGame game;
     
-    public BoggleFrame() {
-        board = new BoggleBoard(NUM_ROWS, NUM_COLS);
+    public BoggleFrame() throws FileNotFoundException {
+        board = new BoggleBoard(NUM_CUBES_HIGH, NUM_CUBES_WIDE);
+        game = new BoggleGame(board);
+        board.randomize();
     	centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        upperDisplay = new JTextField("Peter and Craig's first practice project");
-        upperDisplay.setPreferredSize(new Dimension(350, 60));
-        upperDisplay.setMaximumSize(new Dimension(350, 60));
-        upperDisplay.setMinimumSize(new Dimension(350, 60));
-        upperDisplay.setEditable(false);
-        centerPanel.add(upperDisplay);
+        display = new JTextField("Peter and Craig's first practice project");
+        display.setPreferredSize(new Dimension(350, 60));
+        display.setMaximumSize(new Dimension(350, 60));
+        display.setMinimumSize(new Dimension(350, 60));
+        display.setEditable(false);
+        centerPanel.add(display);
         add(centerPanel);
         createButtonPanel();
         createLowerButtons();
         createLeftTextField();
         createRightTextField();
-        lowerDisplay = new JTextField("Game messages appear here");
-        lowerDisplay.setPreferredSize(new Dimension(350, 60));
-        lowerDisplay.setMaximumSize(new Dimension(350, 60));
-        lowerDisplay.setMinimumSize(new Dimension(350, 60));
-        lowerDisplay.setEditable(false);
-        centerPanel.add(lowerDisplay);
+        message = new JTextField("Game messages appear here");
+        message.setPreferredSize(new Dimension(350, 60));
+        message.setMaximumSize(new Dimension(350, 60));
+        message.setMinimumSize(new Dimension(350, 60));
+        message.setEditable(false);
+        centerPanel.add(message);
     }
 
     /**
@@ -55,15 +59,15 @@ public class BoggleFrame extends JFrame {
      */
     private void createButtonPanel() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(NUM_ROWS, NUM_COLS));
+        buttonPanel.setLayout(new GridLayout(NUM_CUBES_HIGH, NUM_CUBES_WIDE));
         buttonPanel.setPreferredSize(new Dimension(350, 350));
         buttonPanel.setMaximumSize(new Dimension(350, 350));
         buttonPanel.setMinimumSize(new Dimension(350, 350));
         for(int row = 0; row < 5; row++) {
         	for (int col = 0; col < 5; col++) {
-        		letterButtons[row][col] = new JButton(board.getLetter(row, col));
-        		letterButtons[row][col].addActionListener(new LetterButtonListener(board.getLetter(row, col)));
-        		buttonPanel.add(letterButtons[row][col]);
+        		cubeButtons[row][col] = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton
+        		cubeButtons[row][col].addActionListener(new LetterButtonListener(board.getLetter(row, col))); // attaches listener to the JButton
+        		buttonPanel.add(cubeButtons[row][col]);
         	}
         }
         centerPanel.add(buttonPanel);
@@ -71,17 +75,17 @@ public class BoggleFrame extends JFrame {
     
     private void createLeftTextField() {
         JPanel leftPanel = new JPanel();
-        leftWordList = new JTextArea(32, 12);
-        leftWordList.setEditable(false);
-        leftPanel.add(leftWordList);
+        userWordListPane = new JTextArea(32, 12);
+        userWordListPane.setEditable(false);
+        leftPanel.add(userWordListPane);
         add(leftPanel, BorderLayout.WEST);
     }
     
     private void createRightTextField() {
         JPanel rightPanel = new JPanel();
-        rightWordList = new JTextArea(32, 12);
-        rightWordList.setEditable(false);
-        rightPanel.add(rightWordList);
+        computerGeneratedWordsPane = new JTextArea(32, 12);
+        computerGeneratedWordsPane.setEditable(false);
+        rightPanel.add(computerGeneratedWordsPane);
         add(rightPanel, BorderLayout.EAST);
     }
        
@@ -112,7 +116,6 @@ public class BoggleFrame extends JFrame {
     
     class LetterButtonListener implements ActionListener {
         private String letter;
-
         /**
          * Constructs a listener whose actionPerformed method adds a digit to
          * the display.
@@ -123,42 +126,94 @@ public class BoggleFrame extends JFrame {
         public LetterButtonListener(String aLetter) {
             letter = aLetter;
         }
-
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText(upperDisplay.getText() + letter);
-            lowerDisplay.setText(lowerDisplay.getText() + letter);
+        /*	int row, col, rowSpan, colSpan;
+        	int prevRow=0, prevCol=0;
+        	Button *clickedButton = qobject_cast<Button *>(sender());
+        	cubeLayout->getItemPosition(cubeLayout->indexOf(clickedButton), &row, &col, &rowSpan, &colSpan);
+        	if(game.selectCube(row, col)) {
+        		// Uncomment the following lines to view row and col in message window
+        		//	char buf[32];
+        		//	message->setText(QString(itoa(row,buf, 10)) + " " + QString(itoa(col,buf, 10)) );
+        		clickedButton->setStyleSheet("background-color:orange;");
+        		if (game.getPreviousSelection(prevRow, prevCol)) {
+        			QWidget *previousButton = cubeLayout->itemAtPosition(prevRow, prevCol)->widget();
+        			previousButton->setStyleSheet("background-color:powderblue;");
+        		}
+        		QString text = display->text() + clickedButton->text();
+        		display->setText(text);
+        	}*/
         }
     }
 
     class ResetButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	board.randomize();
-            for(int row = 0; row < NUM_ROWS; row++) {
-            	for (int col = 0; col < NUM_COLS; col++) {
-            		letterButtons[row][col].setText(board.getLetter(row, col));
-            	}
-            }
+        	displayButtonLetters();
+        	clearAll();
+        	message.setText("");
         }
     }
     
     class ClearButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText("");
-            lowerDisplay.setText("");
+        	clearAll();
         }
     }
     
     class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText("Submit key pressed");
-            lowerDisplay.setText("Submit key pressed");
+        	String msg = game.getWord();
+
+        	if(game.isWord()) {
+        		msg += " is a Word";
+        		userWordListPane.setText(game.getWordList());
+        	} else {
+        		msg += " is NOT a Word";
+        	}
+        	message.setText(msg);
+        	clearAll();
         }
     }
     
     class AutoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            upperDisplay.setText("Auto key pressed");
-            lowerDisplay.setText("Auto key pressed");
+            /*ComputerPlayer computerPlayer(game);
+            clearAll();
+            string foundWords = computerPlayer.findWords();
+            computerGeneratedWordsPane->setPlainText(QString(foundWords.c_str()));
+            clearAll();*/
         }
     }
+    
+	 /**
+	  * Resets cube colors.
+	  */
+	 void clearCubeColor() {
+		assert(false);
+		/*for (int row = 0; row < NUM_CUBES_HIGH; ++row) {
+			for (int col = 0; col < NUM_CUBES_WIDE; ++col) {
+				QWidget *button = cubeLayout->itemAtPosition(row, col)->widget();
+				button->setStyleSheet("background-color:gainsboro;");
+			}
+		}*/
+	 }
+	 
+	 /**
+	  * Gets GUI ready for a new word
+	  */
+	 void clearAll() {
+		display.setText("");
+		game.startWord();
+		//clearCubeColor();
+	 }
+
+	 /**
+	  * Displays the letters on the cubes
+	  */
+	 void displayButtonLetters() {
+		for (int row = 0; row < NUM_CUBES_HIGH; ++row) 
+			for (int col = 0; col < NUM_CUBES_WIDE; ++col) 
+				cubeButtons[row][col].setText(board.getLetter(row, col));
+	 }
 }
