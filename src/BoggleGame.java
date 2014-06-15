@@ -32,7 +32,7 @@ public class BoggleGame {
 				cubeSelected[i][j] = false;
 		startWord();
 	}
-	
+
 	/**
 	 * Reintializes this board to forget all information about previous words and
 	 * selections.
@@ -67,19 +67,20 @@ public class BoggleGame {
 	}
 
 	/**
-	 * Returns the row and column of the previous selection
-	 * (not the current selection).
-	 * Also returns true if there was a previous selection for the
-	 * current word, false otherwise.
+	 * If there was a previous selection, it's row, column, and the
+	 * boolean true are returned in a MyPair object, otherwise a MyPair
+	 * object with a boolean false is returned.
 	 * @return true if there was a previous selection for the
-	 *         current word, false otherwise.
+	 *         current word (plus the coordinates), false otherwise.
 	*/
-	boolean getPreviousSelection(Integer row, Integer col) {
-		if (selections.size() <= 1)
-			return false;
-		row = selections.get(selections.size()-2).first;
-		col = selections.get(selections.size()-2).second;
-		return true;
+	public MyPair getPreviousSelection() {
+		MyPair myPair = new MyPair(0, 0, false);
+		if (selections.size() > 1) {
+			myPair.first = selections.get(selections.size()-2).first;
+			myPair.second = selections.get(selections.size()-2).second;
+			myPair.flag = true;
+		}
+		return myPair;
 	}
 	
 	/**
@@ -103,7 +104,7 @@ public class BoggleGame {
 			currentRow = row;
 			currentCol = col;
 			word += boggleBoard.getLetter(row, col);
-			selections.add(new MyPair(row, col));
+			selections.add(new MyPair(row, col, false));
 			return true;
 		} else
 			return false;
@@ -133,18 +134,14 @@ public class BoggleGame {
      * and the last cube selected is forgotten.
      */
     void stepBack() {
-    	assert(false);
-    	/*  assert(word.length() > 0);
-        word = word.substr(0, word.length() - 1);
-        int row = selections[selections.size()-1].first;
-        int col = selections[selections.size()-1].second;
-        cubeSelected[row][col] = false;
-        selections.pop_back();
+    	assert(word.length() > 0);
+    	word = word.substring(0, word.length() - 1);
+        MyPair pair = selections.remove(selections.size() - 1);
+        cubeSelected[pair.first][pair.second] = false;
         if(word.length() > 0) {
-            currentRow = selections[selections.size()-1].first;
-            currentCol = selections[selections.size()-1].second;
+            currentRow = selections.get(selections.size()-1).first;
+            currentCol = selections.get(selections.size()-1).second;
         }
-    */
     }
 
     public String getWordList() {
