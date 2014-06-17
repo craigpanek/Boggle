@@ -135,7 +135,11 @@ public class BoggleGame {
      */
     void stepBack() {
     	assert(word.length() > 0);
-    	word = word.substring(0, word.length() - 1);
+    	if(word.length() >= 2
+    		&& word.substring(word.length() - 2, word.length()).equals("qu"))
+    		word = word.substring(0, word.length() - 2);
+    	else
+    		word = word.substring(0, word.length() - 1);
         MyPair pair = selections.remove(selections.size() - 1);
         cubeSelected[pair.first][pair.second] = false;
         if(word.length() > 0) {

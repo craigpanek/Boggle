@@ -37,7 +37,7 @@ public class BoggleFrame extends JFrame {
     public BoggleFrame() throws FileNotFoundException {
     	board = new BoggleBoard(NUM_CUBES_HIGH, NUM_CUBES_WIDE);
         game = new BoggleGame(board);
-    	font1 = new Font("SansSerif", Font.BOLD, 28);
+    	font1 = new Font("SansSerif", Font.BOLD, 26);
     	font2 = new Font("SansSerif", Font.BOLD, 14);
     	centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
