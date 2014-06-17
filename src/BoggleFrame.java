@@ -152,7 +152,7 @@ public class BoggleFrame extends JFrame {
         		cubeButtons[row][col].setBackground(Color.ORANGE);
         		MyPair pair = game.getPreviousSelection();
         		if (pair.flag == true)
-        			cubeButtons[pair.first][pair.second].setBackground(Color.BLUE);
+        			cubeButtons[pair.first][pair.second].setBackground(Color.CYAN);
         		display.setText(display.getText() + cubeButtons[row][col].getText());
         	}
         }
