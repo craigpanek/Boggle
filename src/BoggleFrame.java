@@ -24,7 +24,7 @@ public class BoggleFrame extends JFrame {
     private JTextField display;
     private JTextField message;
     private JPanel centerPanel;
-    private JTextArea userWordListPane;
+    private JTextArea userGeneratedWords;
     private JTextArea computerGeneratedWords;
     private BoggleBoard board;
     private final int NUM_CUBES_HIGH = 5;
@@ -84,16 +84,17 @@ public class BoggleFrame extends JFrame {
     
     private void createLeftTextField() {
         JPanel leftPanel = new JPanel();
-        userWordListPane = new JTextArea(32, 7);
-        userWordListPane.setEditable(false);
-        userWordListPane.setFont(font1);
+        userGeneratedWords = new JTextArea(13, 7);
+        userGeneratedWords.setEditable(false);
+        userGeneratedWords.setFont(font1);
+        JScrollPane userWordListPane = new JScrollPane(userGeneratedWords);
         leftPanel.add(userWordListPane);
         add(leftPanel, BorderLayout.WEST);
     }
     
     private void createRightTextField() {
         JPanel rightPanel = new JPanel();
-        computerGeneratedWords = new JTextArea(32, 7);
+        computerGeneratedWords = new JTextArea(13, 7);
         computerGeneratedWords.setEditable(false);
         computerGeneratedWords.setFont(font1);
         JScrollPane computerGeneratedWordsPane = new JScrollPane(computerGeneratedWords);
@@ -178,7 +179,7 @@ public class BoggleFrame extends JFrame {
 
         	if(game.isWord()) {
         		msg += " is a Word";
-        		userWordListPane.setText(game.getWordList());
+        		userGeneratedWords.setText(game.getWordList());
         	} else {
         		msg += " is NOT a Word";
         	}

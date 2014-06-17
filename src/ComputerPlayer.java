@@ -5,7 +5,6 @@ public class ComputerPlayer {
 	private BoggleGame game;
     private static final int maxLevelToSearch = 3;
     
-
     public ComputerPlayer(BoggleBoard board) throws FileNotFoundException {
     	this.game = new BoggleGame(board);
     }
