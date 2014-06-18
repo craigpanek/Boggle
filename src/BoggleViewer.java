@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 
 public class BoggleViewer {
     public static void main(String[] args) throws FileNotFoundException {
-//    	assert(false);
     	JFrame frame = new BoggleFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Boggle");

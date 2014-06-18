@@ -134,7 +134,6 @@ public class BoggleGame {
      * and the last cube selected is forgotten.
      */
     void stepBack() {
-    	assert(word.length() > 0);
     	if(word.length() >= 2
     		&& word.substring(word.length() - 2, word.length()).equals("qu"))
     		word = word.substring(0, word.length() - 2);

@@ -18,7 +18,6 @@ public class Cube {
 	
 	public String rollCube() {
 		int index = (int) (Math.random() * bigBoggleCubes[cubeID].length());
-		assert (index >= 0 && index <= 5) : "Error in Cube::rollCube()";
 		letter = bigBoggleCubes[cubeID].substring(index, index + 1);
 		if(letter.equals("q"))
 			letter = "qu";

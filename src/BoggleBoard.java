@@ -35,8 +35,6 @@ public class BoggleBoard {
 			for (int col = 0; col < width; col++) {
 				int randomCol = (int)(Math.random() * width);
 				int randomRow = (int)(Math.random() * height);
-				assert(randomCol >= 0 && randomCol <= 4);
-				assert(randomRow >= 0 && randomRow <= 4);
 				Cube tmpCube = arrayOfCubes[randomRow][randomCol];
 				arrayOfCubes[randomRow][randomCol] = arrayOfCubes[row][col];
 				arrayOfCubes[row][col] = tmpCube;

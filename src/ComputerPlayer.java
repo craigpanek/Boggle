@@ -33,7 +33,7 @@ public class ComputerPlayer {
      */
 	private void findWords(int row, int column, int depth) {
 	    game.stepBack();
-	    assert(game.selectCube(row, column));
+	    game.selectCube(row, column); // this call should always return true
 	    game.isWord(); // isWord() adds current 'word' to wordList if it's valid
 	    if(depth >= maxLevelToSearch) {
 	        game.stepBack();
