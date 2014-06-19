@@ -1,3 +1,11 @@
+/**
+ * This class represents a boggleboard game Frame
+ * of cubes.
+ * @author Craig Panek
+ * @author Peter Nguyen
+ * Date: 6-19-2014
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -6,7 +14,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +26,6 @@ import javax.swing.JScrollPane;
  * This frame contains panels that displays components necessary for a
  * Boggle game.  Users play the game by clicking on buttons.
  */
-//@SuppressWarnings("serial")
 public class BoggleFrame extends JFrame {
     private JTextField display;
     private JTextField message;
@@ -131,22 +137,22 @@ public class BoggleFrame extends JFrame {
         centerPanel.add(lowerPanel);
     }
     
-    class LetterButtonListener implements ActionListener {
+    /**
+     * Constructs a listener whose actionPerformed method selects the
+     * cube clicked on
+     */
+	class LetterButtonListener implements ActionListener {
         private int row;
         private int col;
         
-        /**
-         * Constructs a listener whose actionPerformed method adds a digit to
-         * the display.
-         * 
-         * @param aDigit
-         *            the digit to add
-         */
         public LetterButtonListener(int row, int col) {
             this.row = row;
             this.col = col;
         }
 
+        /**
+         * Action for clicking on a letter on the board
+         */
         public void actionPerformed(ActionEvent event) {
         	if (game.selectCube(row, col)) {
         		cubeButtons[row][col].setBackground(Color.ORANGE);
@@ -156,9 +162,12 @@ public class BoggleFrame extends JFrame {
         		display.setText(display.getText() + cubeButtons[row][col].getText());
         	}
         }
-    }
+	}
 
-    class ResetButtonListener implements ActionListener {
+	/**
+	 *  Action for reset button
+	 */
+	class ResetButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	board.randomize();
         	displayButtonLetters();
@@ -167,27 +176,36 @@ public class BoggleFrame extends JFrame {
         }
     }
     
-    class ClearButtonListener implements ActionListener {
+    /**
+     * Action for clear button
+     */
+	class ClearButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	clearAll();
         }
     }
     
-    class SubmitButtonListener implements ActionListener {
+	/**
+	 * Action for submit button
+	 */
+	class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
         	String msg = game.getWord();
 
         	if(game.isWord()) {
         		msg += " is a Word";
         		userGeneratedWords.setText(game.getWordList());
-        	} else {
+        	} else
         		msg += " is NOT a Word";
-        	}
         	message.setText(msg);
         	clearAll();
         }
     }
     
+    /**
+     * Action for Auto button.
+     * Creates and displays a list of all words possible for the given board
+     */
     class AutoButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             clearAll();
@@ -208,11 +226,9 @@ public class BoggleFrame extends JFrame {
 	  * Resets cube colors.
 	  */
 	 void clearCubeColor() {
-		for (int row = 0; row < NUM_CUBES_HIGH; ++row) {
-			for (int col = 0; col < NUM_CUBES_WIDE; ++col) {
+		for (int row = 0; row < NUM_CUBES_HIGH; ++row)
+			for (int col = 0; col < NUM_CUBES_WIDE; ++col)
 				cubeButtons[row][col].setBackground(null);
-			}
-		}
 	 }
 	 
 	 /**
@@ -226,7 +242,6 @@ public class BoggleFrame extends JFrame {
 
 	 /**
 	  * Displays the letters on the cubes
-	  * 
 	  */
 	 void displayButtonLetters() {
 		for (int row = 0; row < NUM_CUBES_HIGH; ++row) 

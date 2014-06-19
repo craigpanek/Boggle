@@ -1,5 +1,11 @@
-import java.io.FileNotFoundException;
+/**
+ * This class represents the main boggleviewer program
+ * @author Craig Panek
+ * @author Peter Nguyen
+ * Date: 6-19-2014
+ */
 
+import java.io.FileNotFoundException;
 import javax.swing.JFrame;
 
 public class BoggleViewer {

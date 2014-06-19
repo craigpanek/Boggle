@@ -1,29 +1,26 @@
+/**
+ * This class represents a bogglegame
+ * @author Craig Panek
+ * Date: 6-19-2014
+ */
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-// BoggleGame class
-// Peter Nguyen and Craig Panek
-// Friday, June 13, 2014
 
 public class BoggleGame {
 
 	private BoggleBoard boggleBoard;
-	private Lexicon lexicon;
+	private Dictionary lexicon;
 	private int currentRow;
 	private int currentCol;
 	private OrderedList wordList = new OrderedList();
-
-	ArrayList<MyPair> selections = new ArrayList<MyPair>();
-
-	// Keeps track of which cubes have been selected
-	boolean[][] cubeSelected;
-	//bool cubeSelected[5][5];
-
+	private ArrayList<MyPair> selections = new ArrayList<MyPair>();
+	private boolean[][] cubeSelected; // Keeps track of which cubes have been selected
 	private String word;
 
 	public BoggleGame(BoggleBoard boggleBoard) throws FileNotFoundException {
 		this.boggleBoard = boggleBoard;
-		lexicon = new Lexicon("Enhanced North American Benchmark Lexicon.txt");
+		lexicon = new Dictionary("Enhanced North American Benchmark Lexicon.txt");
 		int height = boggleBoard.getHeight();
 		int width = boggleBoard.getWidth();
 		cubeSelected = new boolean[height][width];
@@ -46,7 +43,6 @@ public class BoggleGame {
 	}
 
 	/**
-	 * Returns the accumulated word
 	 * @return the accumulated word
 	*/
 	public String getWord() {
@@ -54,8 +50,7 @@ public class BoggleGame {
 	}
 
 	/**
-	 * Returns true if the accumulated word is legal, false otherwise.
-     * (BY CRAIG) - Also inserts the word into the list if it is legal.
+     * Inserts the word into the discovered words list if it is legal.
 	 * @return true if the accumulated word is legal
 	*/
 	public boolean isWord() {
@@ -67,9 +62,6 @@ public class BoggleGame {
 	}
 
 	/**
-	 * If there was a previous selection, it's row, column, and the
-	 * boolean true are returned in a MyPair object, otherwise a MyPair
-	 * object with a boolean false is returned.
 	 * @return true if there was a previous selection for the
 	 *         current word (plus the coordinates), false otherwise.
 	*/
@@ -84,14 +76,11 @@ public class BoggleGame {
 	}
 	
 	/**
-	 * Checks to see if cube at (row,col) is selectable:i.e. has not previously been
-	 * selected and is a neighbor of the last cube selected (or the first selection).
-	 * If selectable, appends the letter on the cube at (row,col) to the word that
-	 * board is accumulating. If not selectable, returns false.
-	 *
-	 * @param row the row for the cube to select
-	 * @param col the column for the cube to select
-	 * @return true if cube at (row,col) has not previously been selected, false otherwise
+	 * Checks if cube at (row,col) is selectable. If so, appends the selected
+	 * letter to the accumulated word.If not, returns false.
+	 * @param row the row for the cube
+	 * @param col the column for the cube
+	 * @return true if cube is selectable, false otherwise
 	 */
 	public boolean selectCube(int row, int col) {
         // Craig added line below
@@ -111,8 +100,6 @@ public class BoggleGame {
 	}
 
     /**
-     * Returns the number of rows in the current game board.
-     *
      * @return the number of rows in the current game board.
      */
     public int getNumRows() {
@@ -120,8 +107,6 @@ public class BoggleGame {
     }
 
     /**
-     * Returns the number of columns in the current game board.
-     *
      * @return the number of columns in the current game board.
      */
     public int getNumCols() {
@@ -147,8 +132,10 @@ public class BoggleGame {
         }
     }
 
+    /**
+     * @return one String containing all words in list of discovered words
+     */
     public String getWordList() {
     	return wordList.toString();
     }
 }
-

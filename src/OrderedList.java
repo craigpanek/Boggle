@@ -1,4 +1,9 @@
-
+/**
+ * This class can represent an ordered list of Strings (words).
+ * Items are inserted one at a time, being placed in their proper position.
+ * @author Craig Panek
+ * Date: 6-19-2014
+ */
 
 import java.util.ArrayList;
 
@@ -6,6 +11,10 @@ public class OrderedList {
 
 	private ArrayList<String> list = new ArrayList<String>();
 	
+	/**
+	 * Insert a given word into it's proper ordered position in the list.
+	 * @param item
+	 */
 	public void insert(String item) {
 		boolean found = false;
 		boolean passed = false;
@@ -25,6 +34,10 @@ public class OrderedList {
 		}
 	}
 	
+	/**
+	 * @param item
+	 * @return true if item is in the list, false otherwise.
+	 */
 	public boolean find(String item) {
 		for(int i = 0; i < list.size(); i++)
 			if(list.get(i).equals(item))
@@ -32,6 +45,9 @@ public class OrderedList {
 		return false;
 	}
 	
+	/**
+	 * @return String representing entire ordered wordlist.
+	 */
 	public String toString() {
 		String outStr = "";
 	

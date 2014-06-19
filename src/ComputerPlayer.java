@@ -1,9 +1,16 @@
+/**
+ * This class represents a computer player who is able to automatically
+ * find all the words that exist for a given bogglegame.
+ * @author Craig Panek
+ * Date: 6-19-2014
+ */
+
 import java.io.FileNotFoundException;
 
 public class ComputerPlayer {
     
 	private BoggleGame game;
-    private static final int maxLevelToSearch = 3;
+    private static final int maxLevelToSearch = 9;
     
     public ComputerPlayer(BoggleBoard board) throws FileNotFoundException {
     	this.game = new BoggleGame(board);
@@ -29,7 +36,7 @@ public class ComputerPlayer {
      * Searches, recursively, for all the words on the game that start at (row, column).
      * @param row row at which all words start
      * @param column column at which all words start
-     * @param depth maximum depth of recursion (necessary to limit computation time)
+     * @param depth maximum depth of recursion (longest words to search for).
      */
 	private void findWords(int row, int column, int depth) {
 	    game.stepBack();
