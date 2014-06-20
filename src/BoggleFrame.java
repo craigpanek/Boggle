@@ -40,8 +40,8 @@ public class BoggleFrame extends JFrame {
     public BoggleFrame() throws FileNotFoundException {
     	board = new BoggleBoard(NUM_CUBES_HIGH, NUM_CUBES_WIDE);
         game = new BoggleGame(board);
-    	font1 = new Font("plain", Font.BOLD, 32);
-    	font2 = new Font("plain", Font.BOLD, 24);
+    	font1 = new Font("plain", Font.PLAIN, 32);
+    	font2 = new Font("plain", Font.PLAIN, 24);
         display = new JTextField(100);
         display.setFont(font1);
         display.setEditable(false);

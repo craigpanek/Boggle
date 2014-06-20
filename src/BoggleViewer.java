@@ -13,9 +13,8 @@ public class BoggleViewer {
     	JFrame frame = new BoggleFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Boggle");
-        frame.setSize(1050, 650);
+        frame.setSize(1062, 650);
         frame.setLocationRelativeTo(null);
-//        frame.setResizable(false);
         frame.setVisible(true);
     }
 }
