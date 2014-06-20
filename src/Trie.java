@@ -29,7 +29,7 @@ class TrieNode {
  * The Trie class is a data structure which contains multiple TrieNodes.
  * A Trie holds words within the structure, and allows fast word searches.
  */
-class Trie {
+public class Trie {
 	
 	private TrieNode root;
 	

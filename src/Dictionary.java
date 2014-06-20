@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-class Dictionary {
+public class Dictionary {
 
 	private Trie trie = new Trie();
 
