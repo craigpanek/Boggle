@@ -9,12 +9,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,7 +27,6 @@ import javax.swing.JScrollPane;
 public class BoggleFrame extends JFrame {
     private JTextField display;
     private JTextField message;
-    private JPanel centerPanel;
     private JTextArea userGeneratedWords;
     private JTextArea computerGeneratedWords;
     private BoggleBoard board;
@@ -43,98 +40,100 @@ public class BoggleFrame extends JFrame {
     public BoggleFrame() throws FileNotFoundException {
     	board = new BoggleBoard(NUM_CUBES_HIGH, NUM_CUBES_WIDE);
         game = new BoggleGame(board);
-    	font1 = new Font("SansSerif", Font.BOLD, 26);
-    	font2 = new Font("SansSerif", Font.BOLD, 14);
-    	centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+    	font1 = new Font("plain", Font.BOLD, 32);
+    	font2 = new Font("plain", Font.BOLD, 24);
         display = new JTextField(100);
-        display.setPreferredSize(new Dimension(350, 60));
-        display.setMaximumSize(new Dimension(350, 60));
-        display.setMinimumSize(new Dimension(350, 60));
-        display.setEditable(false);
         display.setFont(font1);
-        centerPanel.add(display);
-        add(centerPanel);
-        createButtonPanel();
-        createLowerButtons();
-        createLeftTextField();
-        createRightTextField();
-        message = new JTextField();
-        message.setPreferredSize(new Dimension(350, 60));
-        message.setMaximumSize(new Dimension(350, 60));
-        message.setMinimumSize(new Dimension(350, 60));
-        message.setEditable(false);
+        display.setEditable(false);
+        display.setBackground(Color.WHITE);
+        JPanel buttonPanel = createButtonPanel();
+        message = new JTextField(100);
         message.setFont(font1);
-        centerPanel.add(message);
+        message.setEditable(false);
+        message.setBackground(Color.WHITE);
+        JPanel middlePanel = new JPanel();
+        middlePanel.setLayout(new BorderLayout());
+        middlePanel.add(display, BorderLayout.NORTH);
+        middlePanel.add(buttonPanel, BorderLayout.CENTER);
+        middlePanel.add(message, BorderLayout.SOUTH);
+        JPanel leftPanel = createLeftTextPanel();
+        JPanel rightPanel = createRightTextPanel();
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+        mainPanel.add(middlePanel, BorderLayout.CENTER);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+        add(mainPanel);
     }
 
     /**
      * Creates the button panel.
      */
-    private void createButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(NUM_CUBES_HIGH, NUM_CUBES_WIDE));
-        buttonPanel.setPreferredSize(new Dimension(350, 350));
-        buttonPanel.setMaximumSize(new Dimension(350, 350));
-        buttonPanel.setMinimumSize(new Dimension(350, 350));
+    private JPanel createButtonPanel() {
+    	JPanel buttonPanel = new JPanel();
+    	buttonPanel.setLayout(new GridLayout(NUM_CUBES_HIGH + 1, 1));
         for(int row = 0; row < NUM_CUBES_HIGH; row++) {
+        	JPanel rowPanel = new JPanel();
+        	rowPanel.setLayout(new GridLayout(1, NUM_CUBES_WIDE));
         	for (int col = 0; col < NUM_CUBES_WIDE; col++) {
-        		cubeButtons[row][col] = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton
-        		cubeButtons[row][col].addActionListener(new LetterButtonListener(row, col)); // attaches listener to the JButton
-        		cubeButtons[row][col].setFont(font1);
-        		buttonPanel.add(cubeButtons[row][col]);
+        		JButton button = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton 
+        		button.addActionListener(new LetterButtonListener(row, col)); // attaches listener to the JButton
+        		button.setFont(font1);
+        		rowPanel.add(button);
+        		cubeButtons[row][col] = button;
         	}
+        	buttonPanel.add(rowPanel);
         }
-        centerPanel.add(buttonPanel);
+        JPanel lowerPanel = new JPanel();
+        lowerPanel.setLayout(new GridLayout(1, 4));
+        JButton button = new JButton("Reset");
+        button.setFont(font2);
+        ActionListener listener = new ResetButtonListener();
+        button.addActionListener(listener);
+        lowerPanel.add(button);
+        button = new JButton("Clear");
+        button.setFont(font2);
+        listener = new ClearButtonListener();
+        button.addActionListener(listener);
+        lowerPanel.add(button);
+        button = new JButton("Submit");
+        button.setFont(font2);
+        listener = new SubmitButtonListener();
+        button.addActionListener(listener);
+        lowerPanel.add(button);
+        button = new JButton("Auto");
+        button.setFont(font2);
+        listener = new AutoButtonListener();
+        button.addActionListener(listener);
+        lowerPanel.add(button);
+        buttonPanel.add(lowerPanel);
+        return buttonPanel;
     }
     
-    private void createLeftTextField() {
+    /** 
+     * @return a panel containing a text area for user generated words
+     */
+    private JPanel createLeftTextPanel() {
         JPanel leftPanel = new JPanel();
-        userGeneratedWords = new JTextArea(13, 7);
-        userGeneratedWords.setEditable(false);
+        userGeneratedWords = new JTextArea(14, 9);
         userGeneratedWords.setFont(font1);
+        userGeneratedWords.setEditable(false);
         JScrollPane userWordListPane = new JScrollPane(userGeneratedWords);
         leftPanel.add(userWordListPane);
-        add(leftPanel, BorderLayout.WEST);
+        return leftPanel;
     }
     
-    private void createRightTextField() {
+    /**
+     * @return a panel containing a text area for computer generated words
+     */
+    private JPanel createRightTextPanel() {
         JPanel rightPanel = new JPanel();
-        computerGeneratedWords = new JTextArea(13, 7);
+        computerGeneratedWords = new JTextArea(14, 9);
         computerGeneratedWords.setEditable(false);
         computerGeneratedWords.setFont(font1);
         JScrollPane computerGeneratedWordsPane = new JScrollPane(computerGeneratedWords);
         rightPanel.add(computerGeneratedWordsPane);
-        add(rightPanel, BorderLayout.EAST);
-    }
-       
-    private void createLowerButtons() {
-        JPanel lowerPanel = new JPanel();
-        lowerPanel.setLayout(new GridLayout(1, 4));
-        lowerPanel.setPreferredSize(new Dimension(350, 50));
-        lowerPanel.setMaximumSize(new Dimension(350, 50));
-        lowerPanel.setMinimumSize(new Dimension(350, 50));
-        JButton button = new JButton("Reset");
-        ActionListener listener = new ResetButtonListener();
-        button.addActionListener(listener);
-        button.setFont(font2);
-        lowerPanel.add(button);
-        button = new JButton("Clear");
-        listener = new ClearButtonListener();
-        button.addActionListener(listener);
-        button.setFont(font2);
-        lowerPanel.add(button);
-        button = new JButton("Submit");
-        listener = new SubmitButtonListener();
-        button.addActionListener(listener);
-        button.setFont(font2);
-        lowerPanel.add(button);
-        button = new JButton("Auto");
-        listener = new AutoButtonListener();
-        button.addActionListener(listener);
-        button.setFont(font2);
-        lowerPanel.add(button);
-        centerPanel.add(lowerPanel);
+        return rightPanel;
     }
     
     /**
@@ -190,20 +189,20 @@ public class BoggleFrame extends JFrame {
 	 */
 	class SubmitButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-        	String msg = game.getWord();
+        	String msg = "\"" + game.getWord() + "\"";
 
         	if(game.isWord()) {
-        		msg += " is a Word";
+        		msg += " is a word";
         		userGeneratedWords.setText(game.getWordList());
         	} else
-        		msg += " is NOT a Word";
+        		msg += " is NOT a word";
         	message.setText(msg);
         	clearAll();
         }
     }
     
     /**
-     * Action for Auto button.
+     * Action for Auto (computer player) button.
      * Creates and displays a list of all words possible for the given board
      */
     class AutoButtonListener implements ActionListener {
