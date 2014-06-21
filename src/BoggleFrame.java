@@ -6,6 +6,7 @@
  * Date: 6-19-2014
  */
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,12 +14,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 
 /**
  * This frame contains panels that displays components necessary for a
@@ -77,6 +80,7 @@ public class BoggleFrame extends JFrame {
         	rowPanel.setLayout(new GridLayout(1, NUM_CUBES_WIDE));
         	for (int col = 0; col < NUM_CUBES_WIDE; col++) {
         		JButton button = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton 
+        		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
         		button.addActionListener(new LetterButtonListener(row, col)); // attaches listener to the JButton
         		button.setFont(font1);
         		rowPanel.add(button);
@@ -87,22 +91,26 @@ public class BoggleFrame extends JFrame {
         JPanel lowerPanel = new JPanel();
         lowerPanel.setLayout(new GridLayout(1, 4));
         JButton button = new JButton("Reset");
+		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
         button.setFont(font2);
         ActionListener listener = new ResetButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Clear");
-        button.setFont(font2);
+		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
+		button.setFont(font2);
         listener = new ClearButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Submit");
-        button.setFont(font2);
+		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
+		button.setFont(font2);
         listener = new SubmitButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Auto");
-        button.setFont(font2);
+		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
+		button.setFont(font2);
         listener = new AutoButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
