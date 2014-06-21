@@ -55,7 +55,7 @@ public class BoggleFrame extends JFrame {
         message.setEditable(false);
         message.setBackground(Color.WHITE);
         JPanel middlePanel = new JPanel();
-        middlePanel.setLayout(new BorderLayout());
+        middlePanel.setLayout(new BorderLayout(5, 5));
         middlePanel.add(display, BorderLayout.NORTH);
         middlePanel.add(buttonPanel, BorderLayout.CENTER);
         middlePanel.add(message, BorderLayout.SOUTH);
@@ -74,13 +74,12 @@ public class BoggleFrame extends JFrame {
      */
     private JPanel createButtonPanel() {
     	JPanel buttonPanel = new JPanel();
-    	buttonPanel.setLayout(new GridLayout(NUM_CUBES_HIGH + 1, 1));
+    	buttonPanel.setLayout(new GridLayout(NUM_CUBES_HIGH + 1, 1, 5, 5));
         for(int row = 0; row < NUM_CUBES_HIGH; row++) {
         	JPanel rowPanel = new JPanel();
-        	rowPanel.setLayout(new GridLayout(1, NUM_CUBES_WIDE));
+        	rowPanel.setLayout(new GridLayout(1, NUM_CUBES_WIDE, 5, 5));
         	for (int col = 0; col < NUM_CUBES_WIDE; col++) {
         		JButton button = new JButton(board.getLetter(row, col)); // attaches a letter to the JButton 
-        		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
         		button.addActionListener(new LetterButtonListener(row, col)); // attaches listener to the JButton
         		button.setFont(font1);
         		rowPanel.add(button);
@@ -89,27 +88,23 @@ public class BoggleFrame extends JFrame {
         	buttonPanel.add(rowPanel);
         }
         JPanel lowerPanel = new JPanel();
-        lowerPanel.setLayout(new GridLayout(1, 4));
+        lowerPanel.setLayout(new GridLayout(1, 4, 5, 5));
         JButton button = new JButton("Reset");
-		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
         button.setFont(font2);
         ActionListener listener = new ResetButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Clear");
-		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
 		button.setFont(font2);
         listener = new ClearButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Submit");
-		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
 		button.setFont(font2);
         listener = new SubmitButtonListener();
         button.addActionListener(listener);
         lowerPanel.add(button);
         button = new JButton("Auto");
-		button.setBorder(BorderFactory.createStrokeBorder(new BasicStroke(2)));
 		button.setFont(font2);
         listener = new AutoButtonListener();
         button.addActionListener(listener);
