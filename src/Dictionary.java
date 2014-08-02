@@ -8,6 +8,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class Dictionary {
@@ -37,8 +38,9 @@ public class Dictionary {
 	 * @throws FileNotFoundException 
 	 */
 	public void loadDictionary(String wordsFilename) throws FileNotFoundException {
-	    File inputFile = new File(wordsFilename);
-	    Scanner in = new Scanner(inputFile);
+	    //File inputFile = new File(wordsFilename);
+	    InputStream input = getClass().getResourceAsStream(wordsFilename);
+	    Scanner in = new Scanner(input);
 	    while(in.hasNext()) {
 	    	String word = in.next();
 	    	trie.insert(word);
